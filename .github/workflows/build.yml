@@ -1,0 +1,23 @@
+name: Build BrokenAssistant APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: android-actions/setup-android@v2
+      with:
+        api-level: 33
+        target: android-33
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: BrokenAssistant-debug.apk
+        path: app/build/outputs/apk/debug/app-debug.apk
